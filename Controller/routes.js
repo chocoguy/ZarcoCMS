@@ -19,7 +19,7 @@ router.route("/upload-poll").post(controller.uploadPoll);
 router.route("/edit-poll/:id").put(controller.editPoll); //for put request combine get and put
 router.route("/delete-poll/:id").delete(controller.deletePoll)
 router.route("/poll-vote").post(controller.pollVote) //set cookie for poll indicating that the enduser has already voted on that poll
-
+//comment
 
 //routes so webmaster can login and logout
 router.route("/login").post(controller.login);
