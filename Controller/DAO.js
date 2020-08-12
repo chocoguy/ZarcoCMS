@@ -1,5 +1,5 @@
 const ObjectId = require("bson")
-
+const moment = require(moment);
 let posts
 let zarcocms
 let polls
@@ -132,12 +132,59 @@ class DAO {
         }
     }
 
-    static async uploadPost(id, title, content, video, color1, color2, date) {
+    static async uploadPost(title, content, video, color1, color2, date) {
         try {
+            await posts.insertOne({
+                "id": `${Math.floor(Math.random() * Math.floor(10000000)) }`,
+                "title": title,
+                "content": content,
+                "video": video,
+                "color1": color1,
+                "color2": color2,
+                "date": moment().format('MMM Do YY'),
+                "edited": false,
+                "comments": {
+                    "First" : "First comment"
+                }
+            })
+            return { success: true }
 
         } catch (error) {
             console.error(`Error ${error}`)
             return { error: error }
+        }
+    }
+
+    static async editPost(id, title, content, video, color1, color2, date) {
+        try {
+            await posts.updateOne({ id: id }, {
+                $set: {
+                    "title": title,
+                    "content": content,
+                    "video": video,
+                    "color1": color1,
+                    "color2": color2,
+                    "date": moment().format('MMM Do YY'),
+                    "date": true
+                }
+            })
+            return { success: true }
+
+        } catch (error) {
+            Console.error(`Error ${error}`)
+            return { error:error }
+        }
+    }
+
+    static async deletePost(id) {
+        try {
+            await posts.deleteOne({ "id": id })
+
+            return { success : true }
+
+        } catch (error) {
+            Console.error(`Error ${error}`)
+            return { error : error }
         }
     }
 
@@ -146,6 +193,11 @@ class DAO {
 
 
 }
+//for (var i = 0; i < 50; i++) {
+//    let rei = [];
+//    rei.push(i);
+//    [1,2,34,45,6,7,78]
+//}
 
 
 module.exports = DAO

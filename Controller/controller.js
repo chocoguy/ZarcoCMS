@@ -240,11 +240,11 @@ class controller {
                 return
             }
 
-            const { id, title, content, video, color1, color2, date } = req.body;
+            const { title, content, video, color1, color2 } = req.body;
 
-            let post = await DAO.uploadPost(id, title, content, video, color1, color2, date)
+            let post = await DAO.uploadPost(title, content, video, color1, color2)
             if (!post) {
-                res.status(401).json({ "msg": "Error when posting" })
+                res.status(400).json({ "msg": "Error when posting" })
             }
 
             res.json({ "msg": "Post has been posted" })
@@ -256,6 +256,54 @@ class controller {
         }
     }
 
+
+    static async editPost(req, res) {
+        try {
+            let id = req.params.id;
+            if (this.checkuser(req, res) != true) {
+                res.status(401).json({ "msg": "Unauthorized. Incident will be reported" })
+                return
+            }
+
+            const { title, content, video, color1, color2, date } = req.body;
+
+            let update = await DAO.editPost(id, title, content, video, color1, color2)
+            if (!update) {
+                res.status(400).json({ "msg": "Error when updating" })
+            }
+
+            res.json({ "msg": "Post has been updated" })
+
+
+        } catch (error) {
+            res.status(500).json({ "msg": error });
+            console.error(error)
+        }
+
+
+
+    }
+
+
+    static async deletePost(req, res) {
+        try {
+            let id = req.params.id;
+            if (this.checkuser(req, res) != true) {
+                res.status(401).json({ "msg": "Unathorized. Incident will be reported" })
+                return
+            }
+
+            let delete2 = await DAO.deletePost(id)
+            if (!delete2) {
+                res.status(400).json({ "msg" : "error when deleteing" })
+            }
+
+
+        } catch (error) {
+            res.status(500).json({ "msg": error });
+            console.error(error)
+        }
+    }
 
 }
 
