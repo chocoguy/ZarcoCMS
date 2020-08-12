@@ -188,6 +188,24 @@ class DAO {
         }
     }
 
+    static async comment(id, comment, username) {
+        try {
+            await posts.updateOne({ id: id }, {
+                $set: {
+                    "comments": {
+                        comment: username
+                    }
+                }
+            })
+            return { success : true }
+
+
+        } catch (error) {
+            Console.error(`Error ${error}`)
+            return { error:error }
+        }
+    }
+
 
 
 

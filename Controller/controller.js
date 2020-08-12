@@ -245,6 +245,7 @@ class controller {
             let post = await DAO.uploadPost(title, content, video, color1, color2)
             if (!post) {
                 res.status(400).json({ "msg": "Error when posting" })
+                return
             }
 
             res.json({ "msg": "Post has been posted" })
@@ -270,6 +271,7 @@ class controller {
             let update = await DAO.editPost(id, title, content, video, color1, color2)
             if (!update) {
                 res.status(400).json({ "msg": "Error when updating" })
+                return
             }
 
             res.json({ "msg": "Post has been updated" })
@@ -295,9 +297,31 @@ class controller {
 
             let delete2 = await DAO.deletePost(id)
             if (!delete2) {
-                res.status(400).json({ "msg" : "error when deleteing" })
+                res.status(400).json({ "msg": "error when deleteing" })
+                return
             }
 
+            res.json({ "msg" : "Post has been deleted" })
+
+
+        } catch (error) {
+            res.status(500).json({ "msg": error });
+            console.error(error)
+        }
+    }
+
+
+    static async comment(req, res) {
+        try {
+            let id = req.params.id;
+            const { comment, username } = req.body;
+            let comment1 = DAO.comment(id, comment, username);
+            if (!comment1) {
+                res.status(400).json({ "msg": "Error when commenting" })
+                return 
+            }
+
+            res.json({ "msg" : "Comment has been uploaded" })
 
         } catch (error) {
             res.status(500).json({ "msg": error });
