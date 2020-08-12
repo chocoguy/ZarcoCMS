@@ -1,0 +1,10 @@
+{
+  "_id": "ObjectId(djasdjklasdhjasd)",
+  "id": "customID",
+  "pollName": "poll name",
+  "option1": [ 1, 2, 3, 4, 5 ],
+  "option2": [ 1, 2, 3, 4, 5 ],
+  "option3": [ 1, 2, 3, 4, 5 ],
+  "option4": [ 1, 2, 3, 4, 5 ],
+  "COMMENT IGNORE": "the array marks the votes as more people vote more is added to the array"
+}

@@ -1,0 +1,29 @@
+{
+  "name": "zarcocms",
+  "version": "1.0.0",
+  "description": "zarcoCMS backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "chocoguy",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "busboy": "^0.3.1",
+    "config": "^3.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.9",
+    "normalize": "^0.3.1",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "uuid": "^8.2.0"
+  }
+}

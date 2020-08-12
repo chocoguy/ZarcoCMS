@@ -1,0 +1,8 @@
+{
+  "_id": "ObjectId(31288)",
+  "name": "username",
+  "email": "Edgar@decahex.com",
+  "password": "Hashed password",
+  "isadmin": true,
+  "ismod": false
+}
