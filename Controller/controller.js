@@ -314,8 +314,8 @@ class controller {
     static async comment(req, res) {
         try {
             let id = req.params.id;
-            const { comment, username } = req.body;
-            let comment1 = DAO.comment(id, comment, username);
+            const { comment} = req.body;
+            let comment1 = DAO.comment(id, comment);
             if (!comment1) {
                 res.status(400).json({ "msg": "Error when commenting" })
                 return 
@@ -328,6 +328,86 @@ class controller {
             console.error(error)
         }
     }
+
+    static async uploadPoll(req, res) {
+        try {
+            if (this.checkuser(req, res) != true) {
+                res.status(401).json({ "msg": "Unathorized. Incident will be reported" })
+                return
+            }
+            const { pollName, desc, op1, op2, op3, op4 } = req.params;
+            let poll1 = DAO.uploadPoll(pollName, desc, op1, op2, op3, op4);
+            if (!poll1) {
+                res.status(400).json({ "msg": "Error when uploading poll" })
+                return
+            }
+
+            res.json({ "msg" : "Poll has been uploaded!"})
+
+        } catch (error) {
+            res.status(500).json({ "msg": error });
+            console.error(error);
+        }
+    }
+
+    static async deletePoll(req, res) {
+        try {
+            let id = req.params.id;
+            if (this.checkuser(req, res) != true) {
+                res.status(401).json({ "msg": "Unathorized. Incident will be reported" })
+                return
+            }
+            let deletepoll1 = DAO.deletePoll(id);
+            if (!deletepoll1) {
+                res.status(400).json({ "msg": "error when deleting poll" })
+                return
+            }
+
+            res.json({ "msg" : "Poll has been deleted!" })
+
+        } catch (error) {
+            res.status(500).json({ "msg": error });
+            console.error(error);
+        }
+    }
+
+    static async pollVote(req, res) {
+        try {
+            let id = req.params.id;
+            const { option } = req.params;
+            let pollVote = pollVote(id, option);
+            if (!pollVote) {
+                res.status(400).json({ "msg": "error when voting" })
+                return
+            }
+
+            res.json({ "msg": "Poll has been deleted!" })
+
+
+        } catch (error) {
+            res.status(500).json({ "msg": error });
+            console.error(error);
+        }
+    }
+
+    static async getPolls(req, res) {
+        try {
+            pollsPerPage = 1000;
+            const { pollsList, totalNumPolls } = await DAO.getPolls();
+            let response = {
+                posts: postsList,
+                page: 0,
+                entries_per_page: postsPerPage,
+                total_results: totalNumPosts,
+            }
+            res.json(response);
+
+        } catch (error) {
+            res.status(500).json({ "msg": error });
+            console.error(error);
+        }
+    }
+
 
 }
 

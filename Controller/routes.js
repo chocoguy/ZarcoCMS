@@ -16,7 +16,8 @@ router.route("/comment/:id").post(controller.comment); //update done on DAO
 //routes relating to polls
 //webmaster can create and edit polls, users can vote, polls are live between 1 hour to 7 days
 router.route("/upload-poll").post(controller.uploadPoll);
-router.route("/edit-poll/:id").put(controller.editPoll); //for put request combine get and put
+router.route("/get-polls").get(controller.getPolls);
+//router.route("/edit-poll/:id").put(controller.editPoll); //for put request combine get and put
 router.route("/delete-poll/:id").delete(controller.deletePoll)
 router.route("/poll-vote").post(controller.pollVote) //set cookie for poll indicating that the enduser has already voted on that poll
 //comment

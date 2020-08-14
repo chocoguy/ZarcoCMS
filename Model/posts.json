@@ -8,8 +8,5 @@
   "color2": "color2 for css",
   "date": "date posted",
   "edited": false,
-  "comments": {
-    "username": "Comment1",
-    "username2": "Comment2"
-  }
+  "comments": [ "comment", "comment2", "No usernames", "Everyone anonymous" ]
 }

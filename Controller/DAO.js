@@ -188,15 +188,12 @@ class DAO {
         }
     }
 
-    static async comment(id, comment, username) {
+    static async comment(id, comment) {
         try {
-            await posts.updateOne({ id: id }, {
-                $set: {
-                    "comments": {
-                        comment: username
-                    }
-                }
-            })
+            await posts.update(
+                { id: id },
+                { $push: { comments : comment } }
+            )
             return { success : true }
 
 
@@ -204,6 +201,112 @@ class DAO {
             Console.error(`Error ${error}`)
             return { error:error }
         }
+    }
+
+    static async uploadPoll (pollName, desc, op1, op2, op3, op4) {
+        try {
+            await polls.insertOne({
+                id: `${Math.floor(Math.random() * Math.floor(10000000))}`,
+                pollName: pollName,
+                desc: desc,
+                option1: op1,
+                option1_votes: [],
+                option2: op2,
+                option2_votes: [],
+                option3: op3,
+                option3_votes: [],
+                option4: op4,
+                option4_votes: [],
+                "date": moment().format('MMM Do YY'),
+            })
+
+            return { success : true }
+
+        } catch (error) {
+            Console.error(`Error ${error}`)
+            return { error : error }
+        }
+    }
+
+    static async deletePoll (id) {
+        try {
+            await polls.deleteOne({ "id": id })
+
+            return { success : true } 
+
+        } catch (error) {
+            Console.error(`Error ${error}`)
+            return { error : error }
+        }
+    }
+
+    static async pollVote(id, option) {
+        try {
+            let choice
+            switch (option) {
+                case "op1":
+                    choice = option1_votes;
+                    break;
+                case "op2":
+                    choice = option2_votes;
+                    break;
+                case "op3":
+                    choice = option3_votes;
+                    break;
+                case "op4":
+                    choice = option4_votes;
+                    break;
+                default:
+                    choice = option1_votes;
+                    break;
+            }
+
+            await polls.update(
+                { id: id },
+                { $push: {choice: "vote" } }
+            )
+
+
+        } catch (error) {
+            Console.error(`Error ${error}`)
+            return { error : error }
+        }
+    }
+
+
+    static async getPolls({
+        filters = null,
+        page = 0,
+        pollsPerPage = 1000,
+    } = {}) {
+        let queryParams = {}
+        if (filters) {
+            if ("text" in filters) {
+                queryParams = this.textSearchQuery(filters["text"])
+            }
+        }
+
+        let { query = {}, project = {}, sort = DEFAULT_SORT } = queryParams
+        let cursor
+        try {
+            cursor = await polls
+                .find(query)
+                .project(project)
+                .sort(sort)
+        } catch (error) {
+            console.error(`Unable to issue find command ${error}`)
+            return { pollsList: [], totalNumPolls: 0 }
+        }
+        const displayCursor = cursor.skip(pollsPerPage * page).limit(pollsPerPage)
+        try {
+            const pollsList = await displayCursor.toArray()
+            const totalNumPolls = page === 0 ? await polls.countDocuments(query) : 0
+            return { pollsList, totalNumPolls }
+        } catch (error) {
+            console.error(`Unable to convert cursor array ${error}`)
+            return { pollsList: [], totalNumPolls: 0 }
+        }
+
     }
 
 
