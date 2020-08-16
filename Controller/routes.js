@@ -10,7 +10,7 @@ router.route("/get-posts").get(controller.getPosts);
 router.route("/upload-post").post(controller.uploadPost);
 router.route("/edit-post/:id").put(controller.editPost);
 router.route("/delete-post/:id").delete(controller.deletePost);
-router.route("/upload-image").post(controller.uploadImage);
+//router.route("/upload-image").post(controller.uploadImage);
 router.route("/comment/:id").post(controller.comment); //update done on DAO 
 
 //routes relating to polls
@@ -19,13 +19,16 @@ router.route("/upload-poll").post(controller.uploadPoll);
 router.route("/get-polls").get(controller.getPolls);
 //router.route("/edit-poll/:id").put(controller.editPoll); //for put request combine get and put
 router.route("/delete-poll/:id").delete(controller.deletePoll)
-router.route("/poll-vote").post(controller.pollVote) //set cookie for poll indicating that the enduser has already voted on that poll
+router.route("/poll-vote/:id").post(controller.pollVote) //set cookie for poll indicating that the enduser has already voted on that poll
 //comment
 
 //routes so webmaster can login and logout
 router.route("/login").post(controller.login);
 router.route("/logout").post(controller.logout);
 router.route("/register").post(controller.register);
+
+
+module.exports = router;
 
 
 //More routes can be added to expand functionality of CMS

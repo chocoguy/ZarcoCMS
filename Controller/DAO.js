@@ -1,5 +1,4 @@
 const ObjectId = require("bson")
-const moment = require(moment);
 let posts
 let zarcocms
 let polls
@@ -28,7 +27,7 @@ class DAO {
 
     static async addUser(userInfo) {
         try {
-            await users.insertOne({ name: userInfo.name, email: userInfo.email, password: userInfo.password })
+            await users.insertOne({ name: userInfo.name, email: userInfo.email, password: userInfo.password, isAdmin: userInfo.isAdmin, isMod: userInfo.isMod })
             return { success: true }
 
         } catch (error) {
@@ -141,11 +140,8 @@ class DAO {
                 "video": video,
                 "color1": color1,
                 "color2": color2,
-                "date": moment().format('MMM Do YY'),
                 "edited": false,
-                "comments": {
-                    "First" : "First comment"
-                }
+                "comments": []
             })
             return { success: true }
 
@@ -164,7 +160,6 @@ class DAO {
                     "video": video,
                     "color1": color1,
                     "color2": color2,
-                    "date": moment().format('MMM Do YY'),
                     "date": true
                 }
             })
@@ -217,7 +212,6 @@ class DAO {
                 option3_votes: [],
                 option4: op4,
                 option4_votes: [],
-                "date": moment().format('MMM Do YY'),
             })
 
             return { success : true }

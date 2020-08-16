@@ -13,8 +13,8 @@ app.use(express.json({ extended: false }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use("/cms/v1", require('./Controller/routes.js'))
-
+app.use("/cms/v1", require('./Controller/routes'))
+//app.use("/api/v1/search", require('./api/search'))
 const PORT = process.env.PORT || 5000;
 
 

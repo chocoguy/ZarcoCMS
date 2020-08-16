@@ -73,16 +73,16 @@ class controller {
     static async register(req, res) {
         try {
             //Remove when creating FIRST user. FIRST user must be an admin
-            if (this.checkuser(req, res) != true) {
-                res.status(401).json({ "msg": "Unauthorized. Incident will be reported" })
-                return
-            }
+            //if (this.checkuser(req, res) != true) {
+            //    res.status(401).json({ "msg": "Unauthorized. Incident will be reported" })
+            //    return
+            //}
 
-            let status = await DAO.getAdmin(user.email)
-            if (!status) {
-                res.status(401).json({ "msg": "Unauthorized, Only admin role can create users" })
-                return
-            }
+            //let status = await DAO.getAdmin(user.email)
+            //if (!status) {
+            //    res.status(401).json({ "msg": "Unauthorized, Only admin role can create users" })
+            //    return
+            //}
             //--------------------------------
 
 
@@ -131,7 +131,7 @@ class controller {
     }
 
 
-    static async login(req, res) {
+    static async login(req, res, next) {
         try {
 
             const { email, password } = req.body
